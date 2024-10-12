@@ -16,8 +16,5 @@ namespace Domain.Entities
         public string nombre { get; set; }
         public int edad { get; set; }
         public string correo { get; set; }
-
-        
-
     }
 }

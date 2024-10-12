@@ -1,4 +1,7 @@
-﻿using ApplicationCore.Interfaces;
+﻿using ApplicationCore.Commands;
+using ApplicationCore.Interfaces;
+using ApplicationCore.Wrappers;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Host.Controllers
@@ -8,10 +11,12 @@ namespace Host.Controllers
     public class EstudiantesController : ControllerBase
     {
         private readonly IEstudiantesService _service;
+        private readonly IMediator _mediator;
 
-        public EstudiantesController(IEstudiantesService service)
+        public EstudiantesController(IEstudiantesService service, IMediator mediator)
         {
             _service = service;
+            _mediator = mediator;
         }
 
         [HttpGet("getEstudiante")]
@@ -21,5 +26,13 @@ namespace Host.Controllers
             return Ok(result);
         }
 
+        [HttpPost("createEstudiante")]
+        public async Task<ActionResult<Response<int>>> CreateEstudiante(EstudianteCreateCommand command)
+        {
+            var result = await _mediator.Send(command);
+            return Ok(result);
+        }
+
+        //Crear el front del formulario
     }
 }
