@@ -33,6 +33,11 @@ namespace Host.Controllers
             return Ok(result);
         }
 
-        //Crear el front del formulario
+        [HttpDelete("deleteEstudiante/{id}")]
+        public async Task<ActionResult<Response<int>>> DeleteEstudiante(int id)
+        {
+            var result = await _service.DeleteEstudiante(id);
+            return Ok(result);
+        }
     }
 }

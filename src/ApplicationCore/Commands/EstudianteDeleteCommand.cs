@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ApplicationCore.Mappings
+namespace ApplicationCore.Commands
 {
-    public class Estudiantes
+    internal class EstudianteDeleteCommand
     {
     }
 }

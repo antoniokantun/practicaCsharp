@@ -26,5 +26,27 @@ namespace Infraestructure.Services
             list = await _dbContext.estudiante.ToListAsync();
             return new Response<object>(list);
         }
+
+        public async Task<Response<int>> DeleteEstudiante(int id)
+        {
+            try
+            {
+                var estudiante = await _dbContext.estudiante.FindAsync(id);
+
+                if (estudiante == null)
+                {
+                    return new Response<int>(0, "Estudiante no encontrado");
+                }
+
+                _dbContext.estudiante.Remove(estudiante);
+                await _dbContext.SaveChangesAsync();
+
+                return new Response<int>(id, "Estudiante eliminado correctamente");
+            }
+            catch (Exception ex)
+            {
+                return new Response<int>(0, $"Error al eliminar el estudiante: {ex.Message}");
+            }
+        }
     }
 }
