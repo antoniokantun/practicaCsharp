@@ -1,45 +1,44 @@
-﻿using ApplicationCore.Interfaces;
+﻿using ApplicationCore.Commands;
+using ApplicationCore.Interfaces;
 using ApplicationCore.Wrappers;
 using Infraestructure.Persistence;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using Microsoft.EntityFrameworkCore;
-using ApplicationCore.Commands;
-
 namespace Infraestructure.Services
 {
-    public class EstudiantesService : IEstudiantesService
+    public class ProfesoresService : IProfesoresService
     {
         private readonly ApplicationDbContext _dbContext;
 
-        public EstudiantesService(ApplicationDbContext dbContext)
+        public ProfesoresService(ApplicationDbContext dbContext)
         {
             _dbContext = dbContext;
         }
 
-        public async Task<Response<object>> GetEstudiantes()
+        public async Task<Response<object>> GetProfesores()
         {
             object list = new object();
-            list = await _dbContext.estudiante.ToListAsync();
+            list = await _dbContext.profesor.ToListAsync();
             return new Response<object>(list);
         }
 
-        public async Task<Response<object>> GetEstudianteById(int id)
+        public async Task<Response<object>> GetProfesorById(int id)
         {
             try
             {
-                var estudiante = await _dbContext.estudiante.FindAsync(id);
+                var profesor = await _dbContext.profesor.FindAsync(id);
 
-                if (estudiante == null)
+                if (profesor == null)
                 {
                     return new Response<object>(null, "Estudiante no encontrado");
                 }
 
-                return new Response<object>(estudiante);
+                return new Response<object>(profesor);
             }
             catch (Exception ex)
             {
@@ -47,25 +46,25 @@ namespace Infraestructure.Services
             }
         }
 
-        public async Task<Response<int>> UpdateEstudiante(EstudianteCreateCommand request)
+        public async Task<Response<int>> UpdateProfesor(ProfesorCreateCommand request)
         {
             try
             {
-                var estudiante = await _dbContext.estudiante.FindAsync(request.Id);
+                var profesor = await _dbContext.profesor.FindAsync(request.Id);
 
-                if (estudiante == null)
+                if (profesor == null)
                 {
                     return new Response<int>(0, "Estudiante no encontrado");
                 }
 
                 // Actualizar las propiedades del estudiante
-                estudiante.nombre = request.Nombre;
-                estudiante.edad = request.Edad;
-                estudiante.correo = request.Correo;
+                profesor.nombre = request.Nombre;
+                profesor.edad = request.Edad;
+                profesor.correo = request.Correo;
 
                 await _dbContext.SaveChangesAsync();
 
-                return new Response<int>(estudiante.Id, "Estudiante actualizado correctamente");
+                return new Response<int>(profesor.Id, "Estudiante actualizado correctamente");
             }
             catch (Exception ex)
             {
@@ -73,18 +72,18 @@ namespace Infraestructure.Services
             }
         }
 
-        public async Task<Response<int>> DeleteEstudiante(int id)
+        public async Task<Response<int>> DeleteProfesor(int id)
         {
             try
             {
-                var estudiante = await _dbContext.estudiante.FindAsync(id);
+                var profesor = await _dbContext.profesor.FindAsync(id);
 
-                if (estudiante == null)
+                if (profesor == null)
                 {
                     return new Response<int>(0, "Estudiante no encontrado");
                 }
 
-                _dbContext.estudiante.Remove(estudiante);
+                _dbContext.profesor.Remove(profesor);
                 await _dbContext.SaveChangesAsync();
 
                 return new Response<int>(id, "Estudiante eliminado correctamente");

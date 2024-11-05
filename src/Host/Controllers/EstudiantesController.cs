@@ -29,7 +29,7 @@ namespace Host.Controllers
         [HttpPost("createEstudiante")]
         public async Task<ActionResult<Response<int>>> CreateEstudiante(EstudianteCreateCommand command)
         {
-            var result = await _mediator.Send(command);
+            var result = await _mediator.Send(command); 
             return Ok(result);
         }
 
@@ -37,6 +37,20 @@ namespace Host.Controllers
         public async Task<ActionResult<Response<int>>> DeleteEstudiante(int id)
         {
             var result = await _service.DeleteEstudiante(id);
+            return Ok(result);
+        }
+
+        [HttpGet("getEstudiante/{id}")]
+        public async Task<IActionResult> GetEstudianteById(int id)
+        {
+            var result = await _service.GetEstudianteById(id);
+            return Ok(result);
+        }
+
+        [HttpPut("updateEstudiante")]
+        public async Task<ActionResult<Response<int>>> UpdateEstudiante([FromBody] EstudianteCreateCommand command)
+        {
+            var result = await _service.UpdateEstudiante(command);
             return Ok(result);
         }
     }
