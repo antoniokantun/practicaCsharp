@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 
 namespace Domain.Entities
 {
-    [Table("Profesor")]
-    public class Profesor
+    [Table("Administrativo")]
+    public class Administrativo
     {
         [Key]
         public int Id { get; set; }
@@ -17,7 +17,8 @@ namespace Domain.Entities
         [ForeignKey("Colaborador")]
         public int FkColaborador { get; set; }
         public string Correo { get; set; }
-        public string Departamento { get; set; }
+        public string Puesto { get; set; }
+        public string Nomina { get; set; }
 
         public virtual Colaborador Colaborador { get; set; }
     }

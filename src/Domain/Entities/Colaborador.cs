@@ -8,17 +8,16 @@ using System.Threading.Tasks;
 
 namespace Domain.Entities
 {
-    [Table("Profesor")]
-    public class Profesor
+    [Table("Colaboradores")]
+    public class Colaborador
     {
         [Key]
         public int Id { get; set; }
+        public string Nombre { get; set; }
+        public int Edad { get; set; }
+        public DateTime BirthDate { get; set; }
+        public bool IsProfesor { get; set; }
+        public DateTime FechaCreacion { get; set; }
 
-        [ForeignKey("Colaborador")]
-        public int FkColaborador { get; set; }
-        public string Correo { get; set; }
-        public string Departamento { get; set; }
-
-        public virtual Colaborador Colaborador { get; set; }
     }
 }

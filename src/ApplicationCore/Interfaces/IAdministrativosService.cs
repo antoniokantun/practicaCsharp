@@ -1,6 +1,4 @@
-﻿using ApplicationCore.Commands;
-using ApplicationCore.Wrappers;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,8 +6,7 @@ using System.Threading.Tasks;
 
 namespace ApplicationCore.Interfaces
 {
-    public interface IProfesoresService
+    public interface IAdministrativosService
     {
-
     }
 }
