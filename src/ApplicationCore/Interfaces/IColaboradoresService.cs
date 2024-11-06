@@ -11,8 +11,8 @@ namespace ApplicationCore.Interfaces
     public interface IColaboradoresService
     {
         Task<Response<object>> GetColaboradores();
-        Task<Response<object>> GetColaboradorById(int id);
-        Task<Response<int>> DeleteColaborador(int id);
-        Task<Response<int>> UpdateColaborador(ColaboradorCreateCommand Colaborador);
+        //Task<Response<object>> GetColaboradorById(int id);
+        //Task<Response<int>> DeleteColaborador(int id);
+        //Task<Response<int>> UpdateColaborador(ColaboradorCreateCommand Colaborador);
     }
 }

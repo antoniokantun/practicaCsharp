@@ -14,14 +14,16 @@ namespace ApplicationCore.Mappings
         public ColaboradoresMapping()
         {
             CreateMap<ColaboradorCreateCommand, Colaborador>()
-                .ForMember(dest => dest.FechaCreacion,
-                          opt => opt.MapFrom(src => DateTime.Now));
+                .ForMember(dest => dest.Id, opt => opt.Ignore())
+                .ForMember(dest => dest.FechaCreacion, opt => opt.MapFrom(src => DateTime.Now));
 
             CreateMap<ColaboradorCreateCommand, Profesor>()
+                .ForMember(dest => dest.Id, opt => opt.Ignore())
                 .ForMember(dest => dest.Correo, opt => opt.MapFrom(src => src.Correo))
                 .ForMember(dest => dest.Departamento, opt => opt.MapFrom(src => src.Departamento));
 
             CreateMap<ColaboradorCreateCommand, Administrativo>()
+                .ForMember(dest => dest.Id, opt => opt.Ignore())
                 .ForMember(dest => dest.Correo, opt => opt.MapFrom(src => src.Correo))
                 .ForMember(dest => dest.Puesto, opt => opt.MapFrom(src => src.Puesto))
                 .ForMember(dest => dest.Nomina, opt => opt.MapFrom(src => src.Nomina));

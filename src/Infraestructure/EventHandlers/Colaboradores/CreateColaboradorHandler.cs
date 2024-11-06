@@ -23,35 +23,39 @@ namespace Infraestructure.EventHandlers.Colaboradores
             _mapper = mapper;
         }
 
-        public async Task<Response<int>> Handle(ColaboradorCreateCommand request, CancellationToken cancellationToken)
+        public async Task<Response<int>> Handle(ColaboradorCreateCommand command, CancellationToken cancellationToken)
         {
+            using var transaction = await _context.Database.BeginTransactionAsync(cancellationToken);
+
             try
             {
                 // Crear el colaborador
-                var colaborador = _mapper.Map<Colaborador>(request);
-                await _context.colaborador.AddAsync(colaborador, cancellationToken);
+                var colaborador = _mapper.Map<Colaborador>(command);
+                await _context.AddAsync(colaborador, cancellationToken);
                 await _context.SaveChangesAsync(cancellationToken);
 
                 // Dependiendo de IsProfesor, crear el registro correspondiente
-                if (request.IsProfesor)
+                if (command.IsProfesor)
                 {
-                    var profesor = _mapper.Map<Profesor>(request);
+                    var profesor = _mapper.Map<Profesor>(command);
                     profesor.FkColaborador = colaborador.Id;
-                    await _context.profesor.AddAsync(profesor, cancellationToken);
+                    await _context.AddAsync(profesor, cancellationToken);
                 }
                 else
                 {
-                    var administrativo = _mapper.Map<Administrativo>(request);
+                    var administrativo = _mapper.Map<Administrativo>(command);
                     administrativo.FkColaborador = colaborador.Id;
-                    await _context.administrativo.AddAsync(administrativo, cancellationToken);
+                    await _context.AddAsync(administrativo, cancellationToken);
                 }
 
                 await _context.SaveChangesAsync(cancellationToken);
+                await transaction.CommitAsync(cancellationToken);
 
                 return new Response<int>(colaborador.Id, "Colaborador creado exitosamente");
             }
             catch (Exception ex)
             {
+                await transaction.RollbackAsync(cancellationToken);
                 return new Response<int>(0, $"Error al crear el colaborador: {ex.Message}");
             }
         }

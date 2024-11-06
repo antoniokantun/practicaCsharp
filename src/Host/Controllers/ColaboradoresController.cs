@@ -6,19 +6,29 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Host.Controllers
 {
+    [Route("api/colaboradores")]
+    [ApiController]
+
     public class ColaboradoresController : ControllerBase
     {
-        private readonly IEstudiantesService _service;
+        private readonly IColaboradoresService _service;
         private readonly IMediator _mediator;
 
-        public ColaboradoresController(IEstudiantesService service, IMediator mediator)
+        public ColaboradoresController(IColaboradoresService service, IMediator mediator)
         {
             _service = service;
             _mediator = mediator;
         }
 
+        [HttpGet("getColaborador")]
+        public async Task<IActionResult> GetColaboradores()
+        {
+            var result = await _service.GetColaboradores();
+            return Ok(result);
+        }
+
         [HttpPost("create")]
-        public async Task<ActionResult<Response<int>>> Create([FromBody] ColaboradorCreateCommand command)
+        public async Task<ActionResult<Response<int>>> CreateColaborador(ColaboradorCreateCommand command)
         {
             var result = await _mediator.Send(command);
             return Ok(result);
